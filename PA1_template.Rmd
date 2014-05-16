@@ -24,7 +24,8 @@ meanStepsPerDay <- mean(stepsPerDay$steps)
 medianStepsPerDay <- median(stepsPerDay$steps)
 ```
 
-Mean number of steps taken per day: `r meanStepsPerDay`
+Mean number of steps taken per day: `r format(meanStepsPerDay, scientific = F)`
+
 Median number of steps taken per day: `r medianStepsPerDay`
 
 ## What is the average daily activity pattern?

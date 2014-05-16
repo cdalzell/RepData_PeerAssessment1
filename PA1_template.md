@@ -32,7 +32,8 @@ medianStepsPerDay <- median(stepsPerDay$steps)
 ```
 
 
-Mean number of steps taken per day: 1.0766 &times; 10<sup>4</sup>
+Mean number of steps taken per day: 10766
+
 Median number of steps taken per day: 10765
 
 ## What is the average daily activity pattern?
