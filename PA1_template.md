@@ -3,6 +3,11 @@
 
 ## Loading and preprocessing the data
 
+```r
+unzip("activity.zip")
+
+activityDF <- read.csv("activity.csv")
+```
 
 
 ## What is mean total number of steps taken per day?
