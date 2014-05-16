@@ -60,6 +60,20 @@ Interval with the maximum number of steps: 835
 
 ## Imputing missing values
 
+Calculate and report the total number of missing values in the dataset (i.e. the total number of rows with NAs)
+
+```r
+totalNA <- sum(is.na(activityDF))
+```
+
+
+Total missing values: 2304
+
+Create a new dataset that is equal to the original dataset but with the missing data filled in.
+
+
+
+Make a histogram of the total number of steps taken each day and Calculate and report the mean and median total number of steps taken per day. Do these values differ from the estimates from the first part of the assignment? What is the impact of imputing missing data on the estimates of the total daily number of steps?
 
 
 ## Are there differences in activity patterns between weekdays and weekends?
