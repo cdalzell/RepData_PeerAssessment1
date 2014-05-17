@@ -106,5 +106,49 @@ Median number of steps taken per day: 10766
 
 There does not appear to be large difference in the estimate and the median is only very slightly higher.
 
-
 ## Are there differences in activity patterns between weekdays and weekends?
+
+Create a new factor variable in the dataset with two levels -- "weekday" and "weekend" indicating whether a given date is a weekday or weekend day.
+
+
+```r
+findDayType <- function(date) {
+    if (weekdays(as.Date(date)) %in% c("Saturday", "Sunday")) {
+        "weekend"
+    } else {
+        "weekday"
+    }
+}
+
+completeDF$daytype <- as.factor(sapply(completeDF$date, findDayType))
+```
+
+
+Make a panel plot containing a time series plot (i.e. type = "l") of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all weekday days or weekend days (y-axis).
+
+```r
+require(plyr)
+```
+
+```
+## Loading required package: plyr
+```
+
+```r
+require(lattice)
+```
+
+```
+## Loading required package: lattice
+```
+
+```r
+
+averageStepCount <- ddply(completeDF, .(interval, daytype), summarize, steps = mean(steps))
+
+xyplot(steps ~ interval | daytype, data = averageStepCount, layout = c(1, 2), 
+    type = "l", xlab = "Intervals", ylab = "Step Count")
+```
+
+![plot of chunk unnamed-chunk-10](figure/unnamed-chunk-10.png) 
+
