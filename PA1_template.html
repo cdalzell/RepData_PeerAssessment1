@@ -239,7 +239,35 @@ plot(avg5Min, type = &quot;l&quot;, xlab = &quot;Intervals&quot;, ylab = &quot;S
 
 <p>Create a new dataset that is equal to the original dataset but with the missing data filled in.</p>
 
+<pre><code class="r"># Using 5 minute means
+completeDF &lt;- merge(activityDF, avg5Min, by = &quot;interval&quot;, suffixes = c(&quot;&quot;, &quot;.int&quot;))
+
+naList &lt;- is.na(completeDF$steps)
+completeDF$steps[naList] &lt;- completeDF$steps.int[naList]  #
+
+completeDF &lt;- completeDF[, c(1:3)]
+</code></pre>
+
 <p>Make a histogram of the total number of steps taken each day and Calculate and report the mean and median total number of steps taken per day. Do these values differ from the estimates from the first part of the assignment? What is the impact of imputing missing data on the estimates of the total daily number of steps?</p>
+
+<pre><code class="r">compStepsPerDay &lt;- aggregate(steps ~ date, data = completeDF, FUN = sum)
+
+hist(compStepsPerDay$steps, breaks = nrow(compStepsPerDay), main = &quot;&quot;, xlab = &quot;Estimated Steps Per Day&quot;, 
+    ylab = &quot;Frequency&quot;, col = &quot;lightblue&quot;)
+</code></pre>
+
+<p><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAfgAAAH4CAMAAACR9g9NAAAAh1BMVEX9/v0AAAAAAEYAAHMARkYARnMARpoAdL1GAABGAEZGAHNGRnNGRppGdL1Gm95zAABzAEZzAHNzRgBzRppzdEZzdHNzvv2aRgCaRkaaRnOam0aam3Oavpqa372a3/2t2Oa9dAC9dEa935q9/v3em0be35re/r3e/v39vnP935r9/r39/t79/v3STkHJAAAALXRSTlP//////////////////////////////////////////////////////////wCl7wv9AAAACXBIWXMAAAsSAAALEgHS3X78AAAOSklEQVR4nO2di3rbuBFGV05ru+nWdnZbOb2sV63VWrf3f74SJBWTESTOgFAMzJzzfYkSSh5w/mNeJBPmTwdwyU8fvQLwMSDeKYh3CuKdgninIN4piHcK4p2CeKcg3imIdwrinYJ4pyDeKYh3CuKdgninIN4piHcK4p2CeKcg3imIdwrinYJ4pyDeKYh3CuKdgninIN4piHcK4p2CeKcg3imIdwrinYJ4pyDeKYh3CuKdgninIN4piHcK4p2CeKcg3imIdwrinYJ4pyDeKYh3CuKdgninIN4piHcK4p2CeKcg3imIdwrinYJ4pyDeKYh3CuKdgninIN4piHcK4p2CeKcg3imIdwriA4tvfPSa/DAQH1j83oN4XyDeKYh3CuKdgninIN4piHcK4p2CeKcg3imIdwrinYJ4pyDeKYh3CuKdgninIN4piHcK4p2CeKcg3imIdwrinYL4CNv7dorJp9cfsDYfBeJP2T8v28fN7dvVV+bDQPwpuy+vo0eTIP4UtnibTB/jd48c4w3CWX0A8SLsTSZHvAo7KSFehZ2UEH9Kf24XO7uzkxLiI+yfH848YyclxMfYPb3En7CTEuJV2EkJ8SrspIR4FXZSQrwKOykhXoWdlBCvwk5KiFdhJyXEq7CTEuJV2EkJ8SrspIR4FXZSQrwKOykhXoWdlBCvwk5KiFdhJyXEq7CTEuJV2EkJ8SrspIR4FXZSQrwKOykhXoWdlBCvwk5KiFdhJyXEq7CTEuJV2EkJ8SrspIR4FXZSQrwKOykhXoWdlBCvwk5KiFdhJyXEq7CTEuJV2EkJ8SrspIR4FXZSQrwKOykhXoWdlBCvwk5KiFdhJyXEq7CT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" alt="plot of chunk unnamed-chunk-8"/> </p>
+
+<pre><code class="r">
+cMeanStepsPerDay &lt;- mean(compStepsPerDay$steps)
+cMedianStepsPerDay &lt;- median(compStepsPerDay$steps)
+</code></pre>
+
+<p>Mean number of steps taken per day: 10766</p>
+
+<p>Median number of steps taken per day: 10766</p>
+
+<p>There does not appear to be large difference in the estimate and the median is only very slightly higher.</p>
 
 <h2>Are there differences in activity patterns between weekdays and weekends?</h2>
 

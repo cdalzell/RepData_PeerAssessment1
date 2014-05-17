@@ -71,9 +71,40 @@ Total missing values: 2304
 
 Create a new dataset that is equal to the original dataset but with the missing data filled in.
 
+```r
+# Using 5 minute means
+completeDF <- merge(activityDF, avg5Min, by = "interval", suffixes = c("", ".int"))
+
+naList <- is.na(completeDF$steps)
+completeDF$steps[naList] <- completeDF$steps.int[naList]  #
+
+completeDF <- completeDF[, c(1:3)]
+```
 
 
 Make a histogram of the total number of steps taken each day and Calculate and report the mean and median total number of steps taken per day. Do these values differ from the estimates from the first part of the assignment? What is the impact of imputing missing data on the estimates of the total daily number of steps?
+
+```r
+compStepsPerDay <- aggregate(steps ~ date, data = completeDF, FUN = sum)
+
+hist(compStepsPerDay$steps, breaks = nrow(compStepsPerDay), main = "", xlab = "Estimated Steps Per Day", 
+    ylab = "Frequency", col = "lightblue")
+```
+
+![plot of chunk unnamed-chunk-8](figure/unnamed-chunk-8.png) 
+
+```r
+
+cMeanStepsPerDay <- mean(compStepsPerDay$steps)
+cMedianStepsPerDay <- median(compStepsPerDay$steps)
+```
+
+
+Mean number of steps taken per day: 10766
+
+Median number of steps taken per day: 10766
+
+There does not appear to be large difference in the estimate and the median is only very slightly higher.
 
 
 ## Are there differences in activity patterns between weekdays and weekends?
